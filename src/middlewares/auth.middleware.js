@@ -4,8 +4,6 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
 export const verifyJWT = asyncHandler(async (req, _, next) => {
-  // https://drive.google.com/file/d/1EtaGMcA38GLmj8nm88s1EjLjHrk0ER19/view?usp=sharing
-  
   try {
     const token =
       req.cookies?.accessToken ||
