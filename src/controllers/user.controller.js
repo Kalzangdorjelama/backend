@@ -273,7 +273,67 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 });
 
+// changeCurrentPassword controller
+const changeCurrentPassword = asyncHandler(async (req, res) => {
+  // Google: https://drive.google.com/file/d/1mDeRRAdeoLVe4Spacs-acV9_Ob88TYoP/view
+  const { oldPassword, newPassword } = req.body;
 
+  const user = await User.findById(req.user?._id);
+  const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken };
+  if (!isPasswordCorrect) {
+    throw new ApiError(400, "Invalid old password");
+  }
 
+  user.password = newPassword;
+  // console.log("The new change password is: ",user.password);
+
+  // Google: https://drive.google.com/file/d/1a49xHWU0D4o9basjBQY-rTsrHBVURkk4/view
+  await user.save({ validateBeforeSave: false });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Password changed successfully"));
+});
+
+// getCurrentUser  controller
+const getCurrentUser = asyncHandler(async (req, res) => {
+  return res
+    .status(200)
+    .json(new ApiResponse(200, req.user, "User fetched successfully"));
+});
+
+// updateAccountDetails controller
+const updateAccountDetails = asyncHandler(async (req, res) => {
+  const { fullName, email } = req.body;
+
+  if (!fullName || !email) {
+    throw new ApiError(400, "All fields are required");
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        fullName,
+        email: email,
+      },
+    },
+    // if new chai true baye paxi update baye ko information return hunxa hai
+    { new: true }
+  ).select("-password");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Account details updated successfully"));
+});
+
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  refreshAccessToken,
+  changeCurrentPassword,
+  getCurrentUser,
+  updateAccountDetails,
+};

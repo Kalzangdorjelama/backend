@@ -4,13 +4,14 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
 export const verifyJWT = asyncHandler(async (req, _, next) => {
-  // Google: drive.google.com/file/d/1EtaGMcA38GLmj8nm88s1EjLjHrk0ER19/view?usp=drivesdk
-  https: try {
+  // Google: https://drive.google.com/file/d/1EtaGMcA38GLmj8nm88s1EjLjHrk0ER19/view?usp=drivesdk
+
+  try {
     const token =
       req.cookies?.accessToken ||
       req.header("Authorization")?.replace("Bearer ", "");
 
-    console.log(token);
+    // console.log(token);
     if (!token) {
       throw new ApiError(401, "Unauthorized request");
     }
@@ -26,9 +27,10 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
     }
 
     req.user = user;
+    // console.log("req.user: ",req.user);
+
     next();
   } catch (error) {
     throw new ApiError(401, error?.message || "Invalid access token");
   }
 });
-
