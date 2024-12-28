@@ -320,7 +320,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
         email: email,
       },
     },
-    // if new chai true baye paxi update baye ko information return hunxa hai
+    // if we write new: true  then  update baye ko information return hunxa hai
     { new: true }
   ).select("-password");
 
