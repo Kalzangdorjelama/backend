@@ -314,6 +314,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.user?._id,
     {
+      // Google: https://drive.google.com/file/d/1pOyFo0NjBfkVXLhUq4Q5BYGgLsqDZs5z/view
       $set: {
         fullName,
         email: email,
