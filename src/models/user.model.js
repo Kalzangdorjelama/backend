@@ -51,6 +51,7 @@ const userSchema = new Schema(
   }
 );
 
+// Google: https://drive.google.com/file/d/1XGIT3I_xAZArSm4iprp7ji7evJm4Zaqg/view
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
@@ -58,11 +59,13 @@ userSchema.pre("save", async function (next) {
 });
 
 // Password Correct
+// Google: https://drive.google.com/file/d/1i7Yn52K5LZwmx2uTWVKcp8HM_CmHrL10/view
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
 // generate Access Token
+// Google: https://drive.google.com/file/d/1yIjKtf9hI0LGKfKnB2olYWA80TnyQQYi/view
 userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
