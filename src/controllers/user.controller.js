@@ -40,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // console.log(req.body);
   // console.log(req.files);
+  // console.log(req.file?.path);
 
   // Validation
   // Google: https://drive.google.com/file/d/1JUmfOomobNmZ3hhw6EWRhM5kjo72wE8d/view
@@ -61,6 +62,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // check for avatar, check for image
   // The optional chaining (?.) operator accesses an object's property or calls a function. If the object accessed or function called using this operator is undefined or null, the expression short circuits and evaluates to undefined instead of throwing an error.
+  // Google: https://drive.google.com/file/d/1rzRIRp4vC_TtjtZJZDweDCWFUqMeJXy6/view
   const avatarLocalPath = req.files?.avatar[0]?.path;
 
   // const coverImageLocalPath = req.files?.coverImage[0]?.path; // TypeError: Cannot read properties of undefined (reading &#39;0&#39;) yo aauxa if the coverImage is not send but below code can fixed this type of error so better use below code  just try both code one by one in your VsCode
@@ -317,16 +319,80 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
       // Google: https://drive.google.com/file/d/1pOyFo0NjBfkVXLhUq4Q5BYGgLsqDZs5z/view
       $set: {
         fullName,
-        email: email,
+        email,
       },
     },
-    // if we write new: true  then  update baye ko information return hunxa hai
+    // if we write new: true then update baye ko information return hunxa hai
     { new: true }
   ).select("-password");
 
   return res
     .status(200)
     .json(new ApiResponse(200, user, "Account details updated successfully"));
+});
+
+// updateUserAvatar controller
+const updateUserAvatar = asyncHandler(async (req, res) => {
+  // Google: https://drive.google.com/file/d/123CU82roxcD93kxI4rSfn4Yk2bPU1664/view
+  const avatarLocalPath = req.file?.path;
+
+  if (!avatarLocalPath) {
+    throw new ApiError(400, "Avatar file is missing");
+  }
+
+  //TODO: delete old image - assignment
+
+  const avatar = await uploadOnCloudinary(avatarLocalPath);
+
+  if (!avatar.url) {
+    throw new ApiError(400, "Error while uploading on avatar");
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        avatar: avatar.url,
+      },
+    },
+    { new: true }
+  ).select("-password");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Avatar image updated successfully"));
+});
+
+// updateUserCoverImage controller
+const updateUserCoverImage = asyncHandler(async (req, res) => {
+  // Google: https://drive.google.com/file/d/123CU82roxcD93kxI4rSfn4Yk2bPU1664/view
+  const coverImageLocalPath = req.file?.path;
+
+  if (!coverImageLocalPath) {
+    throw new ApiError(400, "CoverImage file is missing");
+  }
+
+  //TODO: delete old image - assignment
+
+  const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+
+  if (!coverImage.url) {
+    throw new ApiError(400, "Error while uploading on CoverImage");
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        coverImage: coverImage.url,
+      },
+    },
+    { new: true }
+  ).select("-password");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "CoverImage updated successfully"));
 });
 
 export {
@@ -337,4 +403,6 @@ export {
   changeCurrentPassword,
   getCurrentUser,
   updateAccountDetails,
+  updateUserAvatar,
+  updateUserCoverImage,
 };
