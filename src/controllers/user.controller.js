@@ -333,11 +333,11 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, user, "Account details updated successfully"));
 });
-// Google: https://drive.google.com/file/d/123CU82roxcD93kxI4rSfn4Yk2bPU1664/view
 
 // updateUserAvatar controller
 const updateUserAvatar = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.file?.path;
+  // Google: https://drive.google.com/file/d/123CU82roxcD93kxI4rSfn4Yk2bPU1664/view
   // console.log(avatarLocalPath);
 
   if (!avatarLocalPath) {
@@ -383,7 +383,9 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
   // delete old CoverImage from cloudinary
   const userdetails = await User.findById(req.user?._id);
   console.log(userdetails.coverImage);
-  const removeCoverImage = await deleteImageFromCloudinary(userdetails.coverImage);
+  const removeCoverImage = await deleteImageFromCloudinary(
+    userdetails.coverImage
+  );
 
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 

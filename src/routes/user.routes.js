@@ -61,3 +61,4 @@ router
   .patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage);
 
 export default router;
+ 
