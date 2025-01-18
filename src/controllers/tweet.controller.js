@@ -6,7 +6,13 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const createTweet = asyncHandler(async (req, res) => {
-  //TODO: create tweet
+  // TODO: create tweet
+  const user = await User.findById(req.user._id);
+  
+
+
+  
+
 });
 
 const getUserTweets = asyncHandler(async (req, res) => {
@@ -14,11 +20,11 @@ const getUserTweets = asyncHandler(async (req, res) => {
 });
 
 const updateTweet = asyncHandler(async (req, res) => {
-  //TODO: update tweet
+  // TODO: update tweet
 });
 
 const deleteTweet = asyncHandler(async (req, res) => {
-  //TODO: delete tweet
+  // TODO: delete tweet
 });
 
 export { createTweet, getUserTweets, updateTweet, deleteTweet };

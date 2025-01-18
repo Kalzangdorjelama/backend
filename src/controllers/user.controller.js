@@ -49,7 +49,10 @@ const registerUser = asyncHandler(async (req, res) => {
   // Google: https://drive.google.com/file/d/1JUmfOomobNmZ3hhw6EWRhM5kjo72wE8d/view
   // Google-Optional chaining (?.): https://drive.google.com/file/d/1uK7TDt0PXcgpVH3Q2oGLgsNkfotfStLO/view
   if (
-    [fullName, email, username, password].some((field) => field?.trim() === "")
+    [fullName, email, username, password].some(
+      (field) =>
+        /*console.log("fixed ma k aako xa :",field */ field?.trim() === ""
+    )
   ) {
     throw new ApiError(400, "All fields are required");
   }
@@ -72,6 +75,7 @@ const registerUser = asyncHandler(async (req, res) => {
   // Google: https://drive.google.com/file/d/1OJOtiy8pGNP1_T4qQYETSP15p8t_b4SW/view
 
   if (!avatarLocalPath) {
+  
     throw new ApiError(400, "Avatar file is required");
   }
 
