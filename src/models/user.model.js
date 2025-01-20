@@ -59,8 +59,8 @@ userSchema.pre("save", async function (next) {
 });
 
 // Password Correct
-Google: https://drive.google.com/file/d/1i7Yn52K5LZwmx2uTWVKcp8HM_CmHrL10/view
-userSchema.methods.isPasswordCorrect = async function (password) {
+//Google: https://drive.google.com/file/d/1i7Yn52K5LZwmx2uTWVKcp8HM_CmHrL10/view
+ userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
