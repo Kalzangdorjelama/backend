@@ -7,6 +7,7 @@ import {
 } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -75,7 +76,6 @@ const registerUser = asyncHandler(async (req, res) => {
   // Google: https://drive.google.com/file/d/1OJOtiy8pGNP1_T4qQYETSP15p8t_b4SW/view
 
   if (!avatarLocalPath) {
-  
     throw new ApiError(400, "Avatar file is required");
   }
 
@@ -187,12 +187,9 @@ const loginUser = asyncHandler(async (req, res) => {
 
 // user to logout controller
 const logoutUser = asyncHandler(async (req, res) => {
-  // req body -> data
-  // username or email
-  // find the user
-  // password check
-  // access and referesh token
-  // send cookie
+  // find the user and remove the refresh token
+  // clear the cookies
+  // send response
 
   // Google: https://drive.google.com/file/d/18sjdeRHWyjoLm9tz_B-tLxNXjnniQRFr/view
   await User.findByIdAndUpdate(
