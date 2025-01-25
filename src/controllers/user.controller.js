@@ -281,11 +281,22 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 // changeCurrentPassword controller
 const changeCurrentPassword = asyncHandler(async (req, res) => {
+  // get the old password and new password from the request
+  // find the user
+  // check if the old password is correct
+  // update the password
+  // send the response
+
   // Google: https://drive.google.com/file/d/1mDeRRAdeoLVe4Spacs-acV9_Ob88TYoP/view
+
   const { oldPassword, newPassword } = req.body;
+  //  console.log("here is the password: ",req.body);
 
   const user = await User.findById(req.user?._id);
+  // console.log("user: ",user);
+
   const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
+  // console.log("correct password: ", isPasswordCorrect);
 
   if (!isPasswordCorrect) {
     throw new ApiError(400, "Invalid old password");
@@ -311,6 +322,10 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 // updateAccountDetails controller
 const updateAccountDetails = asyncHandler(async (req, res) => {
+  // get the full name and email from the request
+  // update the user details
+  // send the response
+  
   const { fullName, email } = req.body;
 
   if (!fullName || !email) {
@@ -334,6 +349,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, user, "Account details updated successfully"));
 });
+
 
 // updateUserAvatar controller
 const updateUserAvatar = asyncHandler(async (req, res) => {
