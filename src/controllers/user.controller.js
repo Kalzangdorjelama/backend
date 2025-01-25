@@ -325,8 +325,9 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
   // get the full name and email from the request
   // update the user details
   // send the response
-  
+
   const { fullName, email } = req.body;
+  // console.log("fullname and email :", req.body);
 
   if (!fullName || !email) {
     throw new ApiError(400, "All fields are required");
@@ -344,12 +345,13 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     // if we write new: true then update baye ko information return hunxa hai
     { new: true }
   ).select("-password");
+  // console.log("Email: ", user.email);
+  // console.log("FullName: ", user.fullName);
 
   return res
     .status(200)
     .json(new ApiResponse(200, user, "Account details updated successfully"));
 });
-
 
 // updateUserAvatar controller
 const updateUserAvatar = asyncHandler(async (req, res) => {
