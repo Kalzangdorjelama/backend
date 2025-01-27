@@ -355,6 +355,12 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 
 // updateUserAvatar controller
 const updateUserAvatar = asyncHandler(async (req, res) => {
+  // get the avatar from the request
+  // delete the old avatar from cloudinary
+  // upload the new avatar to cloudinary
+  // update the user avatar
+  // send the response
+
   const avatarLocalPath = req.file?.path;
   // Google: https://drive.google.com/file/d/123CU82roxcD93kxI4rSfn4Yk2bPU1664/view
   // console.log(avatarLocalPath);
@@ -393,7 +399,14 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
 // updateUserCoverImage controller
 const updateUserCoverImage = asyncHandler(async (req, res) => {
   // Google: https://drive.google.com/file/d/123CU82roxcD93kxI4rSfn4Yk2bPU1664/view
+  // get the coverImage from the request
+  // delete the old coverImage from cloudinary
+  // upload the new coverImage to cloudinary
+  // update the user coverImage
+  // send the response
+
   const coverImageLocalPath = req.file?.path;
+  // console.log("updateCoverImage: ", coverImageLocalPath);
 
   if (!coverImageLocalPath) {
     throw new ApiError(400, "CoverImage file is missing");
@@ -401,12 +414,15 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
 
   // delete old CoverImage from cloudinary
   const userdetails = await User.findById(req.user?._id);
-  console.log(userdetails.coverImage);
+  // console.log("userdetails: ", userdetails);
+  // console.log("userdetails: ", userdetails.coverImage);
+
   const removeCoverImage = await deleteImageFromCloudinary(
     userdetails.coverImage
   );
 
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+  // console.log("updated coverImage url: ", coverImage.url);
 
   if (!coverImage.url) {
     throw new ApiError(400, "Error while uploading on CoverImage");
@@ -421,6 +437,7 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
     },
     { new: true }
   ).select("-password");
+  // console.log("user finally created is: ", user);
 
   return res
     .status(200)
