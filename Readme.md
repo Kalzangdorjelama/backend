@@ -1,1 +1,2 @@
-# backend in javascript
+# video streaming platform backend in javascript
+
