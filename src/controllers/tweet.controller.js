@@ -44,4 +44,9 @@ const deleteTweet = asyncHandler(async (req, res) => {
   //TODO: delete tweet
 });
 
-export { createTweet, getUserTweets, updateTweet, deleteTweet };
+export { 
+  createTweet, 
+  getUserTweets, 
+  updateTweet, 
+  deleteTweet 
+};
